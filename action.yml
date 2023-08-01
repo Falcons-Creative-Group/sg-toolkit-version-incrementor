@@ -19,7 +19,7 @@ runs:
         # Required due to the way Git works, without it this action won't be able to find any or the correct tags
         fetch-depth: '0'  
       
-    - name: 'Get Previous tag'h
+    - name: 'Get Previous tag'
       id: previoustag
       uses: "Falcons-Creative-Group/github-action-get-previous-tag@v1"
 

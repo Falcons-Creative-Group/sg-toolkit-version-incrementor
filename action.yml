@@ -1,0 +1,42 @@
+name: 'Automated version bump'
+description: 'Bump version following ShotGrid\'s recommended way.'
+inputs:
+  base-version:
+    description: 'The base version of the app you forked from. If not provided, the previous tag will be used.'
+    required: false
+    default: ''
+outputs:
+  version:
+    description: 'Version'
+    value: ${{ steps.increment_version.outputs.version }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+          fetch-depth: '0'  
+      
+    - name: 'Get Previous tag'h
+      id: previoustag
+      uses: "Falcons-Creative-Group/github-action-get-previous-tag@v1"
+
+    - name: Print previous tag
+      run: echo "Previous tag was ${{ steps.previoustag.outputs.tag }}"
+
+    # If base-version is not provided, use the previous tag.
+    - name: Bump version
+      id: increment_version
+      run: |
+        base_version="${{ inputs.base-version }}"
+        if [ -z "$base_version" ]; then
+          base_version="${{ steps.previoustag.outputs.tag }}"
+        fi
+
+        local_change_version_number=$(echo $base_version | awk -F. '{print $NF}')
+        next_number=$((local_change_version_number + 1))
+        new_version=$(echo $base_version | sed "s/\.[0-9]*$/.${next_number}/")
+        echo "version=$new_version" >> $GITHUB_OUTPUT
+        echo "New version is ${version}"

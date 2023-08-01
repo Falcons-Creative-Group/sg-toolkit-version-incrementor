@@ -25,6 +25,7 @@ runs:
 
     - name: Print previous tag
       run: echo "Previous tag was ${{ steps.previoustag.outputs.tag }}"
+      shell: bash
 
     # If base-version is not provided, use the previous tag.
     - name: Bump version
@@ -40,3 +41,4 @@ runs:
         new_version=$(echo $base_version | sed "s/\.[0-9]*$/.${next_number}/")
         echo "version=$new_version" >> $GITHUB_OUTPUT
         echo "New version is ${version}"
+      shell: bash

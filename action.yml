@@ -1,5 +1,5 @@
 name: 'Automated version bump'
-description: 'Bump version following ShotGrid\'s recommended way.'
+description: 'Bump version following ShotGrid recommended way.'
 inputs:
   base-version:
     description: 'The base version of the app you forked from. If not provided, the previous tag will be used.'

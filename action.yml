@@ -40,9 +40,14 @@ runs:
           base_version="v0.0.0"
         fi
 
-        local_change_version_number=$(echo $base_version | awk -F. '{print $NF}')
-        next_number=$((local_change_version_number + 1))
-        new_version=$(echo $base_version | sed "s/\.[0-9]*$/.${next_number}/")
+        if [[ $base_version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          new_version="${base_version}.1"
+        else
+          local_change_version_number=$(echo "$base_version" | awk -F. '{print $NF}')
+          next_number=$((local_change_version_number + 1))
+          new_version=$(echo "$base_version" | sed "s/\.[0-9]*$/.${next_number}/")
+        fi
+        
         echo "version=$new_version" >> $GITHUB_OUTPUT
         echo "New version is ${version}"
       shell: bash

@@ -11,43 +11,47 @@ outputs:
     value: ${{ steps.increment_version.outputs.version }}
 
 runs:
-  using: "composite"
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        # Required due to the way Git works, without it this action won't be able to find any or the correct tags
-        fetch-depth: '0'  
+  using: 'node16'
+  main: 'dist/index.js'
+
+# runs:
+#   using: "composite"
+#   steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+#       with:
+#         # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+#         fetch-depth: '0'  
       
-    - name: 'Get Previous tag'
-      id: previoustag
-      uses: "Falcons-Creative-Group/github-action-get-previous-tag@v1"
+#     - name: 'Get Previous tag'
+#       id: previoustag
+#       uses: "Falcons-Creative-Group/github-action-get-previous-tag@v1"
 
-    - name: Print previous tag
-      run: echo "Previous tag was ${{ steps.previoustag.outputs.tag }}"
-      shell: bash
+#     - name: Print previous tag
+#       run: echo "Previous tag was ${{ steps.previoustag.outputs.tag }}"
+#       shell: bash
 
-    # If base-version is not provided, use the previous tag.
-    - name: Bump version
-      id: increment_version
-      run: |
-        base_version="${{ inputs.base-version }}"
-        if [ -z "$base_version" ]; then
-          base_version="${{ steps.previoustag.outputs.tag }}"
-        fi
+#     # If base-version is not provided, use the previous tag.
+#     - name: Bump version
+#       id: increment_version
+#       run: |
+#         base_version="${{ inputs.base-version }}"
+#         if [ -z "$base_version" ]; then
+#           base_version="${{ steps.previoustag.outputs.tag }}"
+#         fi
 
-        if [ -z "$base_version" ]; then
-          base_version="v0.0.0"
-        fi
+#         if [ -z "$base_version" ]; then
+#           base_version="v0.0.0"
+#         fi
 
-        if [[ $base_version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          new_version="${base_version}.1"
-        else
-          local_change_version_number=$(echo "$base_version" | awk -F. '{print $NF}')
-          next_number=$((local_change_version_number + 1))
-          new_version=$(echo "$base_version" | sed "s/\.[0-9]*$/.${next_number}/")
-        fi
+#         if [[ $base_version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+#           new_version="${base_version}.1"
+#         else
+#           local_change_version_number=$(echo "$base_version" | awk -F. '{print $NF}')
+#           next_number=$((local_change_version_number + 1))
+#           new_version=$(echo "$base_version" | sed "s/\.[0-9]*$/.${next_number}/")
+#         fi
         
-        echo "version=$new_version" >> $GITHUB_OUTPUT
-        echo "New version is ${version}"
-      shell: bash
+#         echo "version=$new_version" >> $GITHUB_OUTPUT
+#         echo "New version is ${version}"
+#       shell: bash

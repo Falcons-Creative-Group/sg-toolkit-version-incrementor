@@ -1,0 +1,12 @@
+{
+  "name": "sgtk-version-increment-action",
+  "version": "1.0.0",
+  "description": "GitHub Action for automated version bump following ShotGrid's recommended method",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

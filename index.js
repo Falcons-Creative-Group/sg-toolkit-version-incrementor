@@ -3,12 +3,22 @@ const github = require('@actions/github')
 
 try {
     // Get the tag and base version from inputs
-    const tag = core.getInput('tag');
+    let tag = core.getInput('tag');
     console.log(`tag: ${tag}`);
 
     // 'base-version' input defined in action metadata file
     let baseVersion = core.getInput('base-version');
     console.log(`Base version: ${baseVersion}`);
+
+    // Check if 'tag' is empty, and initialize it to 'v0.0.1' if it is
+    if (!tag) {
+        tag = 'v0.0.1';
+    }
+    
+    // Check if 'baseVersion' is empty, and throw an error if it is
+    if (!baseVersion) {
+        throw new Error(`Base version is empty. Please provide a value for 'base-version' input`);
+    }
 
     // Validate 'tag' format using regular expression
     if (!/^v\d+\.\d+\.\d+(?:\.\d+)?$/.test(tag)) {

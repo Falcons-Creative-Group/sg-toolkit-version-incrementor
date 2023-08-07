@@ -1,10 +1,14 @@
 name: 'Automated version bump'
 description: 'Bump version following ShotGrid recommended way.'
 inputs:
+  tag:
+    description: 'The tag of the app to be used to increment its version suffix where is v<major>.<minor>.<patch>.<version>'
+    required: true
+    default: 'v0.0.1'
   base-version:
-    description: 'The base version of the app you forked from. If not provided, the previous tag will be used.'
+    description: 'The base version of the app you forked from to compare against the tag.'
     required: false
-    default: ''
+    default: 'v0.0.1'
 outputs:
   version:
     description: 'Version'

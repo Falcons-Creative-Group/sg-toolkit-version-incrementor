@@ -10,9 +10,9 @@ try {
     let baseVersion = core.getInput('base-version');
     console.log(`Base version: ${baseVersion}`);
 
-    // Check if 'tag' is empty, and initialize it to 'v0.0.1' if it is
+    // Check if 'tag' is empty, and throw an error if it is
     if (!tag) {
-        tag = 'v0.0.1';
+        throw new Error(`Tag is empty. Please provide a value for 'tag' input`);
     }
     
     // Check if 'baseVersion' is empty, and throw an error if it is

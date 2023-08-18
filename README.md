@@ -5,9 +5,11 @@ To achieve this, the action appends a version suffix to the existing version num
 
 ## Input
 
-The input `tag` refers to the specific tag against which you wish to increment the version. Typically, this would correspond to the most recent tag within the repository.
+The input `tag` refers to the specific tag against which you wish to increment the version. Typically, this would correspond to the most recent tag within the repository. If the `tag` input is either empty or not properly formatted as v<major>.<minor>.<patch> or v<major>.<minor>.<patch>.<enhanced-version>, the action will throw an error.
 
-On the other hand, the input `base-version` pertains to the version of the original parent application, framework, or engine from which you initially forked.
+On the other hand, the input `base-version` pertains to the version of the original parent application, framework, or engine from which you initially forked. If the `base-version` input is either empty or not properly formatted as v<major>.<minor>.<patch>, the action will throw an error.
+
+In scenarios where the `base-version` input value differs from a base version extracted from the `tag` input value (for example, when adding changes from the original app with a newer tag and you update the `base-version` value), the action will always base the `base-version` input and reset the version suffix starting with 1. For instance, if `tag` was `v1.2.3.4` and you add changes from the original app with a newer tag, say `v1.3.1`, then the output would be `v1.3.1.1`.
 
 * `tag`: `v1.2.3.1`
 * `base-version`: `v1.2.3`

@@ -20,16 +20,6 @@ try {
         throw new Error(`Base version is empty. Please provide a value for 'base-version' input`);
     }
 
-    // Validate 'tag' format using regular expression
-    if (!/^v\d+\.\d+\.\d+(?:\.\d+)?$/.test(tag)) {
-        throw new Error(`Invalid tag format. Expected format: v<major>.<minor>.<patch> or v<major>.<minor>.<patch>.<version>`);
-    }
-
-    // Validate 'baseVersion' format using regular expression
-    if (!/^v\d+\.\d+\.\d+$/.test(baseVersion)) {
-        throw new Error(`Invalid base version format. Expected format: v<major>.<minor>.<patch>`);
-    }
-
     // Use regex to extract the version suffix from the tag
     const regex = new RegExp(`${baseVersion}(?:\\.([0-9]+))?`);
     const match = tag.match(regex);
